@@ -2,6 +2,8 @@
 
 namespace TheTreehouse\Relay\HubSpot;
 
-class HubSpotRelay
+use TheTreehouse\Relay\AbstractProvider;
+
+class HubSpotRelay extends AbstractProvider
 {
 }

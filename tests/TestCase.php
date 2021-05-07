@@ -4,6 +4,7 @@ namespace TheTreehouse\Relay\HubSpot\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 use TheTreehouse\Relay\HubSpot\HubSpotRelayServiceProvider;
+use TheTreehouse\Relay\RelayServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -15,6 +16,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            RelayServiceProvider::class,
             HubSpotRelayServiceProvider::class,
         ];
     }
