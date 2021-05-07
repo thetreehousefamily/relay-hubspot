@@ -22,5 +22,8 @@ class HubSpotRelay extends AbstractProvider
     public function __construct(HubSpot $hubSpot)
     {
         $this->hubSpot = $hubSpot;
+
+        $this->supportsContacts = config('relay.providers.hubspot.contacts', true);
+        $this->supportsOrganizations = config('relay.providers.hubspot.organizations', true);
     }
 }

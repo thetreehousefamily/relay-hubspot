@@ -3,7 +3,6 @@
 namespace TheTreehouse\Relay\HubSpot\Tests;
 
 use TheTreehouse\Relay\Facades\Relay;
-use TheTreehouse\Relay\HubSpot\Exceptions\HubSpotConfigurationException;
 use TheTreehouse\Relay\HubSpot\HubSpotRelay;
 
 class HubSpotRelayTest extends TestCase
@@ -13,12 +12,19 @@ class HubSpotRelayTest extends TestCase
         $this->assertContains(HubSpotRelay::class, Relay::getRegisteredProviders());
     }
 
-    public function test_it_rejects_invalid_configuration()
+    public function test_it_respects_support_settings_from_configuration()
     {
-        config(['relay.providers.hubspot' => null]);
+        config(['relay.providers.hubspot.contacts' => false]);
+        config(['relay.providers.hubspot.organizations' => false]);
 
-        $this->expectException(HubSpotConfigurationException::class);
+        $relay = $this->newHubSpotRelay();
 
-        $this->app->make(HubSpotRelay::class);
+        $this->assertFalse($relay->supportsContacts());
+        $this->assertFalse($relay->supportsOrganizations());
+    }
+
+    private function newHubSpotRelay(): HubSpotRelay
+    {
+        return $this->app->make(HubSpotRelay::class);
     }
 }

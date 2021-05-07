@@ -11,6 +11,8 @@ class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->configureHubSpot();
     }
 
     protected function getPackageProviders($app)
@@ -24,5 +26,19 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+    }
+
+    /**
+     * Define the generic HubSpot configuration for tests.
+     * 
+     * @return void
+     */
+    protected function configureHubSpot()
+    {
+        config([
+            'relay.providers.hubspot' => [
+                'apiKey' => 'xxxxxxxxx',
+            ]
+        ]);
     }
 }
