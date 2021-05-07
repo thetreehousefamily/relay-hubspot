@@ -25,5 +25,8 @@ class HubSpotRelay extends AbstractProvider
 
         $this->supportsContacts = config('relay.providers.hubspot.contacts', true);
         $this->supportsOrganizations = config('relay.providers.hubspot.organizations', true);
+
+        $this->contactModelColumn = config('relay.providers.hubspot.contact_model_column', 'hubspot_id');
+        $this->organizationModelColumn = config('relay.providers.hubspot.organization_model_column', 'hubspot_id');
     }
 }
