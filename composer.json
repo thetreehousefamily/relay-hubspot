@@ -1,22 +1,22 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "thetreehouse/relay-hubspot",
+    "description": "HubSpot driver for Relay - Bidirectional syncing between Laravel and HubSpot.",
     "keywords": [
-        ":vendor_name",
+        "thetreehouse",
         "laravel",
-        "package_slug"
+        "relay-hubspot"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/thetreehouse/relay-hubspot",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Frank Dixon",
+            "email": "frank@thetreehouse.family",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0 || ^7.4",
         "spatie/laravel-package-tools": "^1.4.3",
         "illuminate/contracts": "^8.37"
     },
@@ -30,13 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "TheTreehouse\\Relay\\HubSpot\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "TheTreehouse\\Relay\\HubSpot\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "TheTreehouse\\Relay\\HubSpot\\HubSpotRelayServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "HubSpotRelay": "TheTreehouse\\Relay\\HubSpot\\HubSpotRelayFacade"
             }
         }
     },

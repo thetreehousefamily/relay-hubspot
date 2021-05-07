@@ -1,11 +1,10 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace TheTreehouse\Relay\HubSpot\Tests;
 
 class ExampleTest extends TestCase
 {
-    /** @test */
-    public function true_is_true()
+    public function test_true_is_true()
     {
         $this->assertTrue(true);
     }
