@@ -20,6 +20,17 @@ class HubSpotRelayServiceProvider extends PackageServiceProvider
         $package->name('relay-hubspot');
     }
 
+    public function packageRegistered()
+    {
+        $this->app->singleton(HubSpotRelay::class, HubSpotRelay::class);
+
+        $this->app->bind(HubSpot::class, function ($app) {
+            return new HubSpot(
+                config('relay.providers.hubspot.apiKey')
+            );
+        });
+    }
+
     public function bootingPackage()
     {
         if (!$this->app->getProviders(RelayServiceProvider::class)) {

@@ -6,4 +6,21 @@ use TheTreehouse\Relay\AbstractProvider;
 
 class HubSpotRelay extends AbstractProvider
 {
+    /**
+     * The HubSpot instance for interacting with the API
+     * 
+     * @var \TheTreehouse\Relay\HubSpot\HubSpot
+     */
+    protected $hubSpot;
+
+    /**
+     * Instantiate the HubSpotRelay singleton
+     * 
+     * @param \TheTreehouse\Relay\HubSpot\HubSpot $hubSpot
+     * @return void
+     */
+    public function __construct(HubSpot $hubSpot)
+    {
+        $this->hubSpot = $hubSpot;
+    }
 }
