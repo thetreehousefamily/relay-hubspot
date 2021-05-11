@@ -6,6 +6,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use TheTreehouse\Relay\HubSpot\HubSpotRelayServiceProvider;
 use TheTreehouse\Relay\HubSpot\Tests\Concerns\AssertsAgainstHubSpot;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact;
+use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization;
 use TheTreehouse\Relay\RelayServiceProvider;
 
 class TestCase extends Orchestra
@@ -44,7 +45,8 @@ class TestCase extends Orchestra
     protected function runFixtureMigrations()
     {
         $migrations = [
-            'CreateContactsTable' => '/Fixtures/Migrations/create_contacts_table.php'
+            'CreateContactsTable' => '/Fixtures/Migrations/create_contacts_table.php',
+            'CreateOrganizationsTable' => '/Fixtures/Migrations/create_organizations_table.php'
         ];
 
         foreach ($migrations as $class => $file) {
@@ -61,6 +63,7 @@ class TestCase extends Orchestra
     protected function configureRelay()
     {
         config(['relay.contact' => Contact::class]);
+        config(['relay.organization' => Organization::class]);
     }
 
     /**

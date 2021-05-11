@@ -4,6 +4,7 @@ namespace TheTreehouse\Relay\HubSpot\Tests;
 
 use Illuminate\Support\Str;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact;
+use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization;
 
 class HubSpotRelayE2ETest extends TestCase
 {
@@ -16,8 +17,6 @@ class HubSpotRelayE2ETest extends TestCase
 
         $this->randomId = strtolower(Str::random(6));
     }
-
-    // TODO: test failed credentials, client exception etc
 
     public function test_it_creates_contacts()
     {
@@ -33,6 +32,19 @@ class HubSpotRelayE2ETest extends TestCase
             'firstname' => 'Josephine',
             'lastname' => 'Smith',
             'email' => $email
+        ]);
+    }
+
+    public function test_it_creates_organizations()
+    {
+        $organization = Organization::create([
+            'name' => $name = "Example Organization: {$this->randomId}"
+        ]);
+
+        $this->assertNotNull($hsId = $organization->hubspot_id);
+
+        $this->assertHubSpotCompanyExists($hsId, [
+            'name' => $name
         ]);
     }
 }

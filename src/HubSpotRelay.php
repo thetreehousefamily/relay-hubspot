@@ -51,4 +51,23 @@ class HubSpotRelay extends AbstractProvider
         $contact->{$this->contactModelColumn()} = $response->getData()['id'];
         $contact->saveQuietly();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function organizationCreated(Model $organization)
+    {
+        $response = $this->hubSpot->call('post', '/companies', [
+            'properties' => [
+                'name' => $organization->name
+            ]
+        ]);
+
+        if (!isset($response->getData()['id'])) {
+            return;
+        }
+
+        $organization->{$this->organizationModelColumn()} = $response->getData()['id'];
+        $organization->saveQuietly();
+    }
 }

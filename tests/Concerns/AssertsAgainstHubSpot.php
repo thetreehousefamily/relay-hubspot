@@ -50,6 +50,36 @@ trait AssertsAgainstHubSpot
     }
 
     /**
+     * Assert that a organization exists within HubSpot by the given organization id. Optionally, assert
+     * that the matching organization is configured with the provided expected data
+     * 
+     * @param string $companyId The numeric HubSpot ID of the company
+     * @param array $expectedData Optional: Assert that the matching organization is configured with the expected property data
+     */
+    public function assertHubSpotCompanyExists(string $companyId, array $expectedData = []): self
+    {
+        try {
+            $response = $this->hubSpotApi('get', "/objects/companies/{$companyId}");
+        } catch (ClientException $exception) {
+            $this->fail("Failed to assert HubSpot company exists, received: {$exception->getMessage()}");
+        }
+
+        if (($jsonResponse = json_decode($response->getBody()->getContents(), true)) === null) {
+            $this->fail("Failed to decode returned content from HubSpot API");
+        }
+
+        if ($expectedData) {
+            $properties = $jsonResponse['properties'];
+
+            foreach ($expectedData as $key => $value) {
+                $this->assertSame($value, $properties[$key]);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Execute a request against the HubSpot API
      * 
      * @param string $method
