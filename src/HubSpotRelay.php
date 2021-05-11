@@ -15,6 +15,11 @@ class HubSpotRelay extends AbstractProvider
     protected $hubSpot;
 
     /**
+     * @inheritdoc
+     */
+    protected $configKey = 'relay.providers.hubspot';
+
+    /**
      * Instantiate the HubSpotRelay singleton
      *
      * @param \TheTreehouse\Relay\HubSpot\HubSpot $hubSpot
@@ -34,14 +39,10 @@ class HubSpotRelay extends AbstractProvider
     /**
      * @inheritdoc
      */
-    public function contactCreated(Model $contact)
+    public function contactCreated(Model $contact, array $outboundProperties)
     {
         $response = $this->hubSpot->call('post', '/contacts', [
-            'properties' => [
-                'firstname' => $contact->first_name,
-                'lastname' => $contact->last_name,
-                'email' => $contact->email,
-            ],
+            'properties' => $outboundProperties
         ]);
 
         if (! isset($response->getData()['id'])) {
@@ -55,12 +56,10 @@ class HubSpotRelay extends AbstractProvider
     /**
      * @inheritdoc
      */
-    public function organizationCreated(Model $organization)
+    public function organizationCreated(Model $organization, array $outboundProperties)
     {
         $response = $this->hubSpot->call('post', '/companies', [
-            'properties' => [
-                'name' => $organization->name,
-            ],
+            'properties' => $outboundProperties
         ]);
 
         if (! isset($response->getData()['id'])) {
