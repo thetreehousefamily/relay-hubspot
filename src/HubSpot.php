@@ -11,28 +11,28 @@ class HubSpot
 {
     /**
      * The HubSpot API key
-     * 
+     *
      * @var string|null
      */
     protected $apiKey;
 
     /**
      * The Guzzle Client instance, for making outbound HTTP requests
-     * 
+     *
      * @var \GuzzleHttp\Client
      */
     protected $client;
 
     /**
      * The base HTTP path for making requests against the HubSpot API
-     * 
+     *
      * @var string
      */
     protected $basePath;
 
     /**
      * Instantiate a new HubSpot instance
-     * 
+     *
      * @param mixed $authentication Either an API key string, or TODO: OAuth Object
      * @param \GuzzleHttp\Client $client
      * @param string $basePath
@@ -56,7 +56,7 @@ class HubSpot
 
     /**
      * Call a HubSpot API Endpoint
-     * 
+     *
      * @param string $method
      * @param string $path
      * @param array $data
@@ -89,13 +89,13 @@ class HubSpot
 
     /**
      * Generate the initial Guzzle options array, based on the configured authentication method
-     * 
+     *
      * @return array
      */
     private function initialiseOptions(): array
     {
         $options = [
-            'query' => []
+            'query' => [],
         ];
 
         if ($this->apiKey) {

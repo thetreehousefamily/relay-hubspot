@@ -8,14 +8,14 @@ class HubSpotResponseException extends HubSpotRelayException
 {
     /**
      * The original response received
-     * 
+     *
      * @var \GuzzleHttp\Psr7\Response
      */
     protected $response;
 
     /**
      * Instantiate a new exception instance
-     * 
+     *
      * @return void
      */
     public function __construct(string $message, Response $response)

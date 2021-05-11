@@ -36,8 +36,7 @@ class HubSpotRelayServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        if (!$this->app->getProviders(RelayServiceProvider::class)) {
-
+        if (! $this->app->getProviders(RelayServiceProvider::class)) {
             throw HubSpotRelayException::dependentServiceNotLoaded();
         }
     }

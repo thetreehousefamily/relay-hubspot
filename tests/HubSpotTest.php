@@ -33,8 +33,8 @@ class HubSpotTest extends TestCase
                 '/foo/path',
                 [
                     'query' => [
-                        'hapikey' => 'hubspot_api_key'
-                    ]
+                        'hapikey' => 'hubspot_api_key',
+                    ],
                 ]
             )
             ->willReturn($this->mockResponse());
@@ -60,11 +60,11 @@ class HubSpotTest extends TestCase
                 '/foo/path',
                 [
                     'query' => [
-                        'hapikey' => 'hubspot_api_key'
+                        'hapikey' => 'hubspot_api_key',
                     ],
                     'json' => [
-                        'foo' => 'bar'
-                    ]
+                        'foo' => 'bar',
+                    ],
                 ]
             )
             ->willReturn($this->mockResponse());
@@ -116,7 +116,7 @@ class HubSpotTest extends TestCase
         $this->assertSame($response, $hubSpotResponse->getResponse());
         $this->assertEquals(
             [
-                'foo' => 'bar'
+                'foo' => 'bar',
             ],
             $hubSpotResponse->getData()
         );
@@ -124,9 +124,9 @@ class HubSpotTest extends TestCase
 
     private function mockResponse(array $jsonData = []): Response
     {
-        if (!$jsonData) {
+        if (! $jsonData) {
             $jsonData = [
-                'foo' => 'bar'
+                'foo' => 'bar',
             ];
         }
 

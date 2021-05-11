@@ -9,22 +9,22 @@ class HubSpotResponse
 {
     /**
      * The decoded JSON data
-     * 
+     *
      * @var array
      */
     protected $data;
 
     /**
      * The original response received
-     * 
+     *
      * @var \GuzzleHttp\Psr7\Response
      */
     protected $response;
 
     /**
      * Instantiate a new response instance
-     * 
-     * @var \GuzzleHttp\Psr7\Response $response
+     *
+     * @var \GuzzleHttp\Psr7\Response
      * @return void
      */
     public function __construct(Response $response)
@@ -39,7 +39,7 @@ class HubSpotResponse
 
     /**
      * Retrieve the decoded json data as an array
-     * 
+     *
      * @return array
      */
     public function getData(): array
@@ -49,7 +49,7 @@ class HubSpotResponse
 
     /**
      * Retrieve the original response instance
-     * 
+     *
      * @return \GuzzleHttp\Psr7\Response
      */
     public function getResponse(): Response

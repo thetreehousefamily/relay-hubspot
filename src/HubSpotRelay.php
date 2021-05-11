@@ -9,14 +9,14 @@ class HubSpotRelay extends AbstractProvider
 {
     /**
      * The HubSpot instance for interacting with the API
-     * 
+     *
      * @var \TheTreehouse\Relay\HubSpot\HubSpot
      */
     protected $hubSpot;
 
     /**
      * Instantiate the HubSpotRelay singleton
-     * 
+     *
      * @param \TheTreehouse\Relay\HubSpot\HubSpot $hubSpot
      * @return void
      */
@@ -40,11 +40,11 @@ class HubSpotRelay extends AbstractProvider
             'properties' => [
                 'firstname' => $contact->first_name,
                 'lastname' => $contact->last_name,
-                'email' => $contact->email
-            ]
+                'email' => $contact->email,
+            ],
         ]);
 
-        if (!isset($response->getData()['id'])) {
+        if (! isset($response->getData()['id'])) {
             return;
         }
 
@@ -59,11 +59,11 @@ class HubSpotRelay extends AbstractProvider
     {
         $response = $this->hubSpot->call('post', '/companies', [
             'properties' => [
-                'name' => $organization->name
-            ]
+                'name' => $organization->name,
+            ],
         ]);
 
-        if (!isset($response->getData()['id'])) {
+        if (! isset($response->getData()['id'])) {
             return;
         }
 

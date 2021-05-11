@@ -23,7 +23,7 @@ class HubSpotRelayE2ETest extends TestCase
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
-            'email' => $email = "relays_created_contact_{$this->randomId}@example.com"
+            'email' => $email = "relays_created_contact_{$this->randomId}@example.com",
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -31,20 +31,20 @@ class HubSpotRelayE2ETest extends TestCase
         $this->assertHubSpotContactExists($hsId, [
             'firstname' => 'Josephine',
             'lastname' => 'Smith',
-            'email' => $email
+            'email' => $email,
         ]);
     }
 
     public function test_it_creates_organizations()
     {
         $organization = Organization::create([
-            'name' => $name = "Example Organization: {$this->randomId}"
+            'name' => $name = "Example Organization: {$this->randomId}",
         ]);
 
         $this->assertNotNull($hsId = $organization->hubspot_id);
 
         $this->assertHubSpotCompanyExists($hsId, [
-            'name' => $name
+            'name' => $name,
         ]);
     }
 }

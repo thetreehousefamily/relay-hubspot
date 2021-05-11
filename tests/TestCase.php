@@ -39,14 +39,14 @@ class TestCase extends Orchestra
 
     /**
      * Run the fixture migrations
-     * 
+     *
      * @return void
      */
     protected function runFixtureMigrations()
     {
         $migrations = [
             'CreateContactsTable' => '/Fixtures/Migrations/create_contacts_table.php',
-            'CreateOrganizationsTable' => '/Fixtures/Migrations/create_organizations_table.php'
+            'CreateOrganizationsTable' => '/Fixtures/Migrations/create_organizations_table.php',
         ];
 
         foreach ($migrations as $class => $file) {
@@ -57,7 +57,7 @@ class TestCase extends Orchestra
 
     /**
      * Define the generic Relay configuration for tests.
-     * 
+     *
      * @return void
      */
     protected function configureRelay()
@@ -68,7 +68,7 @@ class TestCase extends Orchestra
 
     /**
      * Define the generic HubSpot configuration for tests.
-     * 
+     *
      * @return void
      */
     protected function configureHubSpot()
@@ -76,7 +76,7 @@ class TestCase extends Orchestra
         config([
             'relay.providers.hubspot' => [
                 'apiKey' => env('HUBSPOT_TEST_API_KEY', ''),
-            ]
+            ],
         ]);
     }
 }

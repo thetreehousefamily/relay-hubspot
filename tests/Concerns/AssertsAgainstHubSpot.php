@@ -22,7 +22,7 @@ trait AssertsAgainstHubSpot
     /**
      * Assert that a contact exists within HubSpot by the given contact id. Optionally, assert
      * that the matching contact is configured with the provided expected data
-     * 
+     *
      * @param string $contactId The numeric HubSpot ID of the contact
      * @param array $expectedData Optional: Assert that the matching contact is configured with the expected property data
      */
@@ -52,7 +52,7 @@ trait AssertsAgainstHubSpot
     /**
      * Assert that a organization exists within HubSpot by the given organization id. Optionally, assert
      * that the matching organization is configured with the provided expected data
-     * 
+     *
      * @param string $companyId The numeric HubSpot ID of the company
      * @param array $expectedData Optional: Assert that the matching organization is configured with the expected property data
      */
@@ -81,13 +81,13 @@ trait AssertsAgainstHubSpot
 
     /**
      * Execute a request against the HubSpot API
-     * 
+     *
      * @param string $method
-     * @return \GuzzleHttp\Psr7\Response 
+     * @return \GuzzleHttp\Psr7\Response
      */
     protected function hubSpotApi(string $method, string $path, array $data = []): Response
     {
-        if (!$apiKey = env('HUBSPOT_TEST_API_KEY')) {
+        if (! $apiKey = env('HUBSPOT_TEST_API_KEY')) {
             $this->markTestSkipped('Missing HubSpot API Key - Cannot assert against HubSpot.');
         }
 
@@ -97,20 +97,20 @@ trait AssertsAgainstHubSpot
                 $this->hubSpotBasePath.$path,
                 [
                     'query' => [
-                        'hapikey' => $apiKey
-                    ]
+                        'hapikey' => $apiKey,
+                    ],
                 ]
             );
     }
 
     /**
      * Return a Guzzle Client instance
-     * 
+     *
      * @return \GuzzleHttp\Client
      */
     protected function client(): Client
     {
-        if (!$this->client) {
+        if (! $this->client) {
             $this->client = new Client();
         }
 
