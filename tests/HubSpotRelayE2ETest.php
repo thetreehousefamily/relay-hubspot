@@ -14,8 +14,10 @@ class HubSpotRelayE2ETest extends TestCase
     {
         parent::setUp();
 
-        $this->randomId = Str::random(6);
+        $this->randomId = strtolower(Str::random(6));
     }
+
+    // TODO: test failed credentials, client exception etc
 
     public function test_it_creates_contacts()
     {

@@ -2,6 +2,7 @@
 
 namespace TheTreehouse\Relay\HubSpot;
 
+use GuzzleHttp\Client;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use TheTreehouse\Relay\Facades\Relay;
@@ -26,7 +27,9 @@ class HubSpotRelayServiceProvider extends PackageServiceProvider
 
         $this->app->bind(HubSpot::class, function ($app) {
             return new HubSpot(
-                config('relay.providers.hubspot.apiKey')
+                config('relay.providers.hubspot.apiKey'),
+                new Client(),
+                'https://api.hubspot.com/crm/v3/objects'
             );
         });
     }

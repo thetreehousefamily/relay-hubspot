@@ -67,7 +67,7 @@ trait AssertsAgainstHubSpot
                 $this->hubSpotBasePath.$path,
                 [
                     'query' => [
-                        'hapikey' => env('HUBSPOT_TEST_API_KEY')
+                        'hapikey' => $apiKey
                     ]
                 ]
             );

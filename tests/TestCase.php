@@ -72,7 +72,7 @@ class TestCase extends Orchestra
     {
         config([
             'relay.providers.hubspot' => [
-                'apiKey' => 'xxxxxxxxx',
+                'apiKey' => env('HUBSPOT_TEST_API_KEY', ''),
             ]
         ]);
     }

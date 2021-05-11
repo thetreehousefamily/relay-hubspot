@@ -2,6 +2,7 @@
 
 namespace TheTreehouse\Relay\HubSpot;
 
+use Illuminate\Database\Eloquent\Model;
 use TheTreehouse\Relay\AbstractProvider;
 
 class HubSpotRelay extends AbstractProvider
@@ -28,5 +29,26 @@ class HubSpotRelay extends AbstractProvider
 
         $this->contactModelColumn = config('relay.providers.hubspot.contact_model_column', 'hubspot_id');
         $this->organizationModelColumn = config('relay.providers.hubspot.organization_model_column', 'hubspot_id');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function contactCreated(Model $contact)
+    {
+        $response = $this->hubSpot->call('post', '/contacts', [
+            'properties' => [
+                'firstname' => $contact->first_name,
+                'lastname' => $contact->last_name,
+                'email' => $contact->email
+            ]
+        ]);
+
+        if (!isset($response->getData()['id'])) {
+            return;
+        }
+
+        $contact->{$this->contactModelColumn()} = $response->getData()['id'];
+        $contact->saveQuietly();
     }
 }
