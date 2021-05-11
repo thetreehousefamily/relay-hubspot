@@ -25,7 +25,7 @@ class HubSpotRelayServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(HubSpotRelay::class, HubSpotRelay::class);
 
-        $this->app->bind(HubSpot::class, function ($app) {
+        $this->app->bind(HubSpot::class, function () {
             return new HubSpot(
                 config('relay.providers.hubspot.apiKey'),
                 new Client(),
