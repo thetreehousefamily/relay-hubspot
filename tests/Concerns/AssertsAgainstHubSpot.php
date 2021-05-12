@@ -42,6 +42,10 @@ trait AssertsAgainstHubSpot
             $properties = $jsonResponse['properties'];
 
             foreach ($expectedData as $key => $value) {
+                if (!isset($properties[$key])) {
+                    $this->fail("HubSpot response missing expected key: {$key}");
+                }
+                
                 $this->assertSame($value, $properties[$key]);
             }
         }
@@ -72,6 +76,10 @@ trait AssertsAgainstHubSpot
             $properties = $jsonResponse['properties'];
 
             foreach ($expectedData as $key => $value) {
+                if (!isset($properties[$key])) {
+                    $this->fail("HubSpot response missing expected key: {$key}");
+                }
+                
                 $this->assertSame($value, $properties[$key]);
             }
         }

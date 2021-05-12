@@ -69,4 +69,28 @@ class HubSpotRelay extends AbstractProvider
         $organization->{$this->organizationModelColumn()} = $response->getData()['id'];
         $organization->saveQuietly();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function contactUpdated(Model $contact, array $outboundProperties)
+    {
+        $contactId = $contact->{$this->contactModelColumn()};
+
+        $this->hubSpot->call('patch', "/contacts/{$contactId}", [
+            'properties' => $outboundProperties
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function organizationUpdated(Model $organization, array $outboundProperties)
+    {
+        $companyId = $organization->{$this->organizationModelColumn()};
+
+        $this->hubSpot->call('patch', "/companies/{$companyId}", [
+            'properties' => $outboundProperties
+        ]);
+    }
 }

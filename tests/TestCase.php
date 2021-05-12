@@ -2,9 +2,11 @@
 
 namespace TheTreehouse\Relay\HubSpot\Tests;
 
+use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase as Orchestra;
 use TheTreehouse\Relay\HubSpot\HubSpotRelayServiceProvider;
 use TheTreehouse\Relay\HubSpot\Tests\Concerns\AssertsAgainstHubSpot;
+use TheTreehouse\Relay\HubSpot\Tests\Contracts\TestsAgainstHubSpot;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization;
 use TheTreehouse\Relay\RelayServiceProvider;
@@ -16,6 +18,10 @@ class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
+
+        if ($this instanceof TestsAgainstHubSpot) {
+            sleep(1);
+        }
     }
 
     protected function getPackageProviders($app)
@@ -88,5 +94,18 @@ class TestCase extends Orchestra
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Retrieve the current test's formatted name
+     * 
+     * @return string
+     */
+    protected function formattedTestName(): string
+    {
+        return (string) Str::of($this->getName())
+            ->replace('test_', '')
+            ->replace('_', ' ')
+            ->title();
     }
 }

@@ -66,7 +66,10 @@ class HubSpot
     {
         $options = $this->initialiseOptions();
 
-        if ($method === 'post' && $data) {
+        if (
+            ($method === 'post' || $method === 'patch')
+            && $data
+        ) {
             $options['json'] = $data;
         }
 

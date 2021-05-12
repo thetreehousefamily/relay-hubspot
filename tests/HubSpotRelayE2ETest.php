@@ -3,27 +3,18 @@
 namespace TheTreehouse\Relay\HubSpot\Tests;
 
 use Illuminate\Support\Str;
+use TheTreehouse\Relay\HubSpot\Tests\Contracts\TestsAgainstHubSpot;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization;
 
-class HubSpotRelayE2ETest extends TestCase
+class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
 {
-    /** @var string */
-    private $randomId;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->randomId = strtolower(Str::random(6));
-    }
-
     public function test_it_creates_contacts()
     {
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
-            'email' => $email = "relays_created_contact_{$this->randomId}@example.com",
+            'email' => $email = $this->randomEmail()
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -38,7 +29,7 @@ class HubSpotRelayE2ETest extends TestCase
     public function test_it_creates_organizations()
     {
         $organization = Organization::create([
-            'name' => $name = "Example Organization: {$this->randomId}",
+            'name' => $name = $this->randomName(),
         ]);
 
         $this->assertNotNull($hsId = $organization->hubspot_id);
@@ -46,5 +37,83 @@ class HubSpotRelayE2ETest extends TestCase
         $this->assertHubSpotCompanyExists($hsId, [
             'name' => $name,
         ]);
+    }
+
+    public function test_it_updates_contacts()
+    {
+        /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact $contact */
+        $contact = Contact::create([
+            'first_name' => 'Josephine',
+            'last_name' => 'Smith',
+            'email' => $this->randomEmail()
+        ]);
+
+        $this->assertNotNull($hsId = $contact->hubspot_id);
+
+        $contact->fill([
+            'first_name' => 'Josie',
+            'last_name' => 'Smithe',
+            'email' => $email = $this->randomEmail()
+        ]);
+
+        $contact->save();
+
+        $this->assertHubSpotContactExists($hsId, [
+            'firstname' => 'Josie',
+            'lastname' => 'Smithe',
+            'email' => $email
+        ]);
+    }
+
+    public function test_it_updates_organizations()
+    {
+        /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization $organization */
+        $organization = Organization::create([
+            'name' => $this->randomName()
+        ]);
+
+        $this->assertNotNull($hsId = $organization->hubspot_id);
+
+        $organization->fill([
+            'name' => $name = $this->randomName()
+        ]);
+
+        $organization->save();
+
+        $this->assertHubSpotCompanyExists($hsId, [
+            'name' => $name
+        ]);
+    }
+
+    /**
+     * Generate a random email
+     * 
+     * @return string
+     */
+    private function randomEmail($test = null): string
+    {
+        return (string) Str::of($test ?? $this->formattedTestName())
+            ->snake()
+            ->append(
+                '_',
+                Str::random(6),
+                '@example.org'
+            )
+            ->lower();
+    }
+
+    /**
+     * Generate a random organization name
+     * 
+     * @return string
+     */
+    private function randomName($test = null): string
+    {
+        return (string) Str::of($test ?? $this->formattedTestName())
+            ->title()
+            ->append(
+                ' - ',
+                Str::random(6),
+            );
     }
 }
