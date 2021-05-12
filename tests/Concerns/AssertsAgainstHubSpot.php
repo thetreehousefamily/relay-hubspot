@@ -84,7 +84,7 @@ trait AssertsAgainstHubSpot
             $properties = $jsonResponse['properties'];
 
             foreach ($expectedData as $key => $value) {
-                if (!isset($properties[$key])) {
+                if (! isset($properties[$key])) {
                     $this->fail("HubSpot response missing expected {$entityType} key: {$key}");
                 }
                 
@@ -114,7 +114,7 @@ trait AssertsAgainstHubSpot
             $this->fail("Failed to decode returned content from HubSpot API");
         }
 
-        if (!isset($jsonResponse['archived']) || !$jsonResponse['archived']) {
+        if (! isset($jsonResponse['archived']) || ! $jsonResponse['archived']) {
             $this->fail("Failed to assert that {$entityType}: {$entityId} has been archived");
         }
 

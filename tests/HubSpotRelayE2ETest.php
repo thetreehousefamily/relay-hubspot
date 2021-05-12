@@ -14,7 +14,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
-            'email' => $email = $this->randomEmail()
+            'email' => $email = $this->randomEmail(),
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -45,7 +45,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
-            'email' => $this->randomEmail()
+            'email' => $this->randomEmail(),
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -53,7 +53,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         $contact->fill([
             'first_name' => 'Josie',
             'last_name' => 'Smithe',
-            'email' => $email = $this->randomEmail()
+            'email' => $email = $this->randomEmail(),
         ]);
 
         $contact->save();
@@ -61,7 +61,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         $this->assertHubSpotContactExists($hsId, [
             'firstname' => 'Josie',
             'lastname' => 'Smithe',
-            'email' => $email
+            'email' => $email,
         ]);
     }
 
@@ -69,19 +69,19 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
     {
         /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization $organization */
         $organization = Organization::create([
-            'name' => $this->randomName()
+            'name' => $this->randomName(),
         ]);
 
         $this->assertNotNull($hsId = $organization->hubspot_id);
 
         $organization->fill([
-            'name' => $name = $this->randomName()
+            'name' => $name = $this->randomName(),
         ]);
 
         $organization->save();
 
         $this->assertHubSpotCompanyExists($hsId, [
-            'name' => $name
+            'name' => $name,
         ]);
     }
 
@@ -91,7 +91,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
-            'email' => $this->randomEmail()
+            'email' => $this->randomEmail(),
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -105,7 +105,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
     {
         /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization $organization */
         $organization = Organization::create([
-            'name' => $this->randomName()
+            'name' => $this->randomName(),
         ]);
 
         $this->assertNotNull($hsId = $organization->hubspot_id);
@@ -117,7 +117,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
 
     /**
      * Generate a random email
-     * 
+     *
      * @return string
      */
     private function randomEmail($test = null): string
@@ -134,7 +134,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
 
     /**
      * Generate a random organization name
-     * 
+     *
      * @return string
      */
     private function randomName($test = null): string

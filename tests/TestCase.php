@@ -86,11 +86,11 @@ class TestCase extends Orchestra
                 'contact_fields' => [
                     'first_name' => 'firstname',
                     'last_name' => 'lastname',
-                    'email' => 'email'
+                    'email' => 'email',
                 ],
 
                 'organization_fields' => [
-                    'name' => 'name'
+                    'name' => 'name',
                 ],
             ],
         ]);
@@ -98,7 +98,7 @@ class TestCase extends Orchestra
 
     /**
      * Retrieve the current test's formatted name
-     * 
+     *
      * @return string
      */
     protected function formattedTestName(): string

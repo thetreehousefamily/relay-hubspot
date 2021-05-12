@@ -42,7 +42,7 @@ class HubSpotRelay extends AbstractProvider
     public function contactCreated(Model $contact, array $outboundProperties)
     {
         $response = $this->hubSpot->call('post', '/contacts', [
-            'properties' => $outboundProperties
+            'properties' => $outboundProperties,
         ]);
 
         if (! isset($response->getData()['id'])) {
@@ -59,7 +59,7 @@ class HubSpotRelay extends AbstractProvider
     public function organizationCreated(Model $organization, array $outboundProperties)
     {
         $response = $this->hubSpot->call('post', '/companies', [
-            'properties' => $outboundProperties
+            'properties' => $outboundProperties,
         ]);
 
         if (! isset($response->getData()['id'])) {
@@ -78,7 +78,7 @@ class HubSpotRelay extends AbstractProvider
         $contactId = $contact->{$this->contactModelColumn()};
 
         $this->hubSpot->call('patch', "/contacts/{$contactId}", [
-            'properties' => $outboundProperties
+            'properties' => $outboundProperties,
         ]);
     }
 
@@ -90,7 +90,7 @@ class HubSpotRelay extends AbstractProvider
         $companyId = $organization->{$this->organizationModelColumn()};
 
         $this->hubSpot->call('patch', "/companies/{$companyId}", [
-            'properties' => $outboundProperties
+            'properties' => $outboundProperties,
         ]);
     }
     
