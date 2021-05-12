@@ -29,12 +29,18 @@ class HubSpotResponse
      */
     public function __construct(Response $response)
     {
+        $this->data = [];
+        $this->response = $response;
+
+        if ($response->getStatusCode() == 204) {
+            return;
+        }
+
         if (($data = json_decode($response->getBody()->getContents(), true)) === null) {
             throw HubSpotResponseException::malformedResponse($response);
         }
 
         $this->data = $data;
-        $this->response = $response;
     }
 
     /**

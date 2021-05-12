@@ -93,4 +93,24 @@ class HubSpotRelay extends AbstractProvider
             'properties' => $outboundProperties
         ]);
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function contactDeleted(Model $contact)
+    {
+        $contactId = $contact->{$this->contactModelColumn()};
+
+        $this->hubSpot->call('delete', "/contacts/{$contactId}");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function organizationDeleted(Model $organization)
+    {
+        $organizationId = $organization->{$this->organizationModelColumn()};
+
+        $this->hubSpot->call('delete', "/companies/{$organizationId}");
+    }
 }

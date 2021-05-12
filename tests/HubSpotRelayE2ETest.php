@@ -85,6 +85,36 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         ]);
     }
 
+    public function test_it_deletes_contacts()
+    {
+        /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact $contact */
+        $contact = Contact::create([
+            'first_name' => 'Josephine',
+            'last_name' => 'Smith',
+            'email' => $this->randomEmail()
+        ]);
+
+        $this->assertNotNull($hsId = $contact->hubspot_id);
+
+        $contact->delete();
+
+        $this->assertHubSpotContactArchived($hsId);
+    }
+
+    public function test_it_deletes_organizations()
+    {
+        /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization $organization */
+        $organization = Organization::create([
+            'name' => $this->randomName()
+        ]);
+
+        $this->assertNotNull($hsId = $organization->hubspot_id);
+
+        $organization->delete();
+
+        $this->assertHubSpotCompanyArchived($hsId);
+    }
+
     /**
      * Generate a random email
      * 

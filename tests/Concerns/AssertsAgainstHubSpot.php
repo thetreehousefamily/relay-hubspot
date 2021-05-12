@@ -20,18 +20,60 @@ trait AssertsAgainstHubSpot
     protected $client;
 
     /**
-     * Assert that a contact exists within HubSpot by the given contact id. Optionally, assert
-     * that the matching contact is configured with the provided expected data
+     * Assert that a contact exists within HubSpot by the given contact id.
      *
-     * @param string $contactId The numeric HubSpot ID of the contact
-     * @param array $expectedData Optional: Assert that the matching contact is configured with the expected property data
+     * @param string $contactId
+     * @param array $expectedData
      */
     public function assertHubSpotContactExists(string $contactId, array $expectedData = []): self
     {
+        return $this->assertHubSpotEntityExists('contact', $contactId, $expectedData);
+    }
+
+    /**
+     * Assert that a organization exists within HubSpot by the given organization id.
+     *
+     * @param string $companyId
+     * @param array $expectedData
+     */
+    public function assertHubSpotCompanyExists(string $companyId, array $expectedData = []): self
+    {
+        return $this->assertHubSpotEntityExists('company', $companyId, $expectedData);
+    }
+
+    /**
+     * Assert that a HubSpot Contact has been archived
+     *
+     * @param string $contactId
+     */
+    public function assertHubSpotContactArchived(string $contactId): self
+    {
+        return $this->assertHubSpotEntityArchived('contact', $contactId);
+    }
+
+    /**
+     * Assert that a HubSpot Company has been archived
+     *
+     * @param string $companyId
+     */
+    public function assertHubSpotCompanyArchived(string $companyId): self
+    {
+        return $this->assertHubSpotEntityArchived('company', $companyId);
+    }
+
+    /**
+     * Assert an entity exists within HubSpot
+     */
+    private function assertHubSpotEntityExists(string $entityType, string $entityId, array $expectedData = []): self
+    {
+        $entityTypePlural = $entityType === 'contact'
+            ? 'contacts'
+            : 'companies';
+        
         try {
-            $response = $this->hubSpotApi('get', "/objects/contacts/{$contactId}");
+            $response = $this->hubSpotApi('get', "/objects/{$entityTypePlural}/{$entityId}");
         } catch (ClientException $exception) {
-            $this->fail("Failed to assert HubSpot contact exists, received: {$exception->getMessage()}");
+            $this->fail("Failed to assert HubSpot {$entityType} exists, received: {$exception->getMessage()}");
         }
 
         if (($jsonResponse = json_decode($response->getBody()->getContents(), true)) === null) {
@@ -43,7 +85,7 @@ trait AssertsAgainstHubSpot
 
             foreach ($expectedData as $key => $value) {
                 if (!isset($properties[$key])) {
-                    $this->fail("HubSpot response missing expected key: {$key}");
+                    $this->fail("HubSpot response missing expected {$entityType} key: {$key}");
                 }
                 
                 $this->assertSame($value, $properties[$key]);
@@ -54,34 +96,26 @@ trait AssertsAgainstHubSpot
     }
 
     /**
-     * Assert that a organization exists within HubSpot by the given organization id. Optionally, assert
-     * that the matching organization is configured with the provided expected data
-     *
-     * @param string $companyId The numeric HubSpot ID of the company
-     * @param array $expectedData Optional: Assert that the matching organization is configured with the expected property data
+     * Assert an entity has been archived within HubSpot
      */
-    public function assertHubSpotCompanyExists(string $companyId, array $expectedData = []): self
+    private function assertHubSpotEntityArchived(string $entityType, string $entityId): self
     {
+        $entityTypePlural = $entityType === 'contact'
+            ? 'contacts'
+            : 'companies';
+        
         try {
-            $response = $this->hubSpotApi('get', "/objects/companies/{$companyId}");
+            $response = $this->hubSpotApi('get', "/objects/{$entityTypePlural}/{$entityId}", [], ['archived' => 'true']);
         } catch (ClientException $exception) {
-            $this->fail("Failed to assert HubSpot company exists, received: {$exception->getMessage()}");
+            $this->fail("Failed to assert HubSpot {$entityType} is archived, received: {$exception->getMessage()}");
         }
 
         if (($jsonResponse = json_decode($response->getBody()->getContents(), true)) === null) {
             $this->fail("Failed to decode returned content from HubSpot API");
         }
 
-        if ($expectedData) {
-            $properties = $jsonResponse['properties'];
-
-            foreach ($expectedData as $key => $value) {
-                if (!isset($properties[$key])) {
-                    $this->fail("HubSpot response missing expected key: {$key}");
-                }
-                
-                $this->assertSame($value, $properties[$key]);
-            }
+        if (!isset($jsonResponse['archived']) || !$jsonResponse['archived']) {
+            $this->fail("Failed to assert that {$entityType}: {$entityId} has been archived");
         }
 
         return $this;
@@ -93,7 +127,7 @@ trait AssertsAgainstHubSpot
      * @param string $method
      * @return \GuzzleHttp\Psr7\Response
      */
-    protected function hubSpotApi(string $method, string $path, array $data = []): Response
+    protected function hubSpotApi(string $method, string $path, array $data = [], array $query = []): Response
     {
         if (! $apiKey = env('HUBSPOT_TEST_API_KEY')) {
             $this->markTestSkipped('Missing HubSpot API Key - Cannot assert against HubSpot.');
@@ -104,9 +138,12 @@ trait AssertsAgainstHubSpot
                 $method,
                 $this->hubSpotBasePath.$path,
                 [
-                    'query' => [
-                        'hapikey' => $apiKey,
-                    ],
+                    'query' => array_merge(
+                        [
+                            'hapikey' => $apiKey,
+                        ],
+                        $query
+                    ),
                 ]
             );
     }
