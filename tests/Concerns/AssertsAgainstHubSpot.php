@@ -69,9 +69,17 @@ trait AssertsAgainstHubSpot
         $entityTypePlural = $entityType === 'contact'
             ? 'contacts'
             : 'companies';
-        
+
         try {
-            $response = $this->hubSpotApi('get', "/objects/{$entityTypePlural}/{$entityId}");
+            $response = $this->hubSpotApi(
+                'get',
+                "/objects/{$entityTypePlural}/{$entityId}",
+                [],
+                [
+                    'properties' => implode(',', array_keys($expectedData))
+                ]
+            );
+
         } catch (ClientException $exception) {
             $this->fail("Failed to assert HubSpot {$entityType} exists, received: {$exception->getMessage()}");
         }

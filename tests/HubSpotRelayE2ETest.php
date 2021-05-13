@@ -2,6 +2,7 @@
 
 namespace TheTreehouse\Relay\HubSpot\Tests;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use TheTreehouse\Relay\HubSpot\Tests\Contracts\TestsAgainstHubSpot;
 use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Contact;
@@ -9,12 +10,14 @@ use TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization;
 
 class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
 {
+    /** @group focus */
     public function test_it_creates_contacts()
     {
         $contact = Contact::create([
             'first_name' => 'Josephine',
             'last_name' => 'Smith',
             'email' => $email = $this->randomEmail(),
+            'hs_custom_property_date' => ($date = Carbon::now())->toDateString()
         ]);
 
         $this->assertNotNull($hsId = $contact->hubspot_id);
@@ -23,6 +26,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
             'firstname' => 'Josephine',
             'lastname' => 'Smith',
             'email' => $email,
+            'custom_property_date' => $date->toDateString()
         ]);
     }
 

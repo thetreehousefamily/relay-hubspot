@@ -13,6 +13,7 @@ class CreateContactsTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
+            $table->date('hs_custom_property_date');
             $table->string('hubspot_id')->nullable();
             $table->timestamps();
         });

@@ -87,6 +87,7 @@ class TestCase extends Orchestra
                     'first_name' => 'firstname',
                     'last_name' => 'lastname',
                     'email' => 'email',
+                    'hs_custom_property_date' => 'custom_property_date',
                 ],
 
                 'organization_fields' => [
