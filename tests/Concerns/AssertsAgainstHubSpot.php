@@ -76,10 +76,9 @@ trait AssertsAgainstHubSpot
                 "/objects/{$entityTypePlural}/{$entityId}",
                 [],
                 [
-                    'properties' => implode(',', array_keys($expectedData))
+                    'properties' => implode(',', array_keys($expectedData)),
                 ]
             );
-
         } catch (ClientException $exception) {
             $this->fail("Failed to assert HubSpot {$entityType} exists, received: {$exception->getMessage()}");
         }

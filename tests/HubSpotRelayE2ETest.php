@@ -25,7 +25,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
             'firstname' => 'Josephine',
             'lastname' => 'Smith',
             'email' => $email,
-            'custom_property_date' => $date->toDateString()
+            'custom_property_date' => $date->toDateString(),
         ]);
     }
 
@@ -40,7 +40,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
 
         $this->assertHubSpotCompanyExists($hsId, [
             'name' => $name,
-            'custom_property_date' => $date->toDateString()
+            'custom_property_date' => $date->toDateString(),
         ]);
     }
 
@@ -60,7 +60,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
             'first_name' => 'Josie',
             'last_name' => 'Smithe',
             'email' => $email = $this->randomEmail(),
-            'hs_custom_property_date' => $date = Carbon::now()->addDays(rand(1, 5))
+            'hs_custom_property_date' => $date = Carbon::now()->addDays(rand(1, 5)),
         ]);
 
         $contact->save();
@@ -69,7 +69,7 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
             'firstname' => 'Josie',
             'lastname' => 'Smithe',
             'email' => $email,
-            'custom_property_date' => $date->toDateString()
+            'custom_property_date' => $date->toDateString(),
         ]);
     }
 
@@ -78,21 +78,21 @@ class HubSpotRelayE2ETest extends TestCase implements TestsAgainstHubSpot
         /** @var \TheTreehouse\Relay\HubSpot\Tests\Fixtures\Models\Organization $organization */
         $organization = Organization::create([
             'name' => $this->randomName(),
-            'hs_custom_property_date' => '2000-01-01'
+            'hs_custom_property_date' => '2000-01-01',
         ]);
 
         $this->assertNotNull($hsId = $organization->hubspot_id);
 
         $organization->fill([
             'name' => $name = $this->randomName(),
-            'hs_custom_property_date' => $date = Carbon::now()->addDays(rand(1, 5))
+            'hs_custom_property_date' => $date = Carbon::now()->addDays(rand(1, 5)),
         ]);
 
         $organization->save();
 
         $this->assertHubSpotCompanyExists($hsId, [
             'name' => $name,
-            'custom_property_date' => $date->toDateString(), 
+            'custom_property_date' => $date->toDateString(),
         ]);
     }
 
